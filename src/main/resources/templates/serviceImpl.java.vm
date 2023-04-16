@@ -1,0 +1,74 @@
+package ${package.ServiceImpl};
+
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import ${package.Entity}.${entity};
+import ${package.Mapper}.${table.mapperName};
+import ${package.Service}.${table.serviceName};
+import ${superServiceImplClassPackage};
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.apache.commons.lang.StringUtils;
+
+/**
+ * <p>
+ * $!{table.comment}服务实现类
+ * </p>
+ *
+ * @author ${author}
+ * @date ${date}
+ */
+@Service
+@Transactional(propagation= Propagation.NESTED,isolation= Isolation.DEFAULT,readOnly = false,rollbackFor=Exception.class)
+public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.mapperName}, ${entity}> implements ${table.serviceName} {
+
+
+    @Autowired
+    private ${table.mapperName} ${table.entityPath}Mapper;
+
+    /**
+     *  分页查询
+     * @param page 分页信息
+     * @param ${table.entityPath}
+     * @return
+     */
+    @Override
+    public IPage<${entity}> selectPage(Page<${entity}> page, ${entity} ${table.entityPath}) {
+
+        QueryWrapper<${entity}> queryWrapper = null;
+        if (${table.entityPath} != null) {
+            queryWrapper = getQueryWrapper(${table.entityPath});
+        }
+        IPage<${entity}> ${table.entityPath}IPage = ${table.entityPath}Mapper.selectPage(page, queryWrapper);
+        return ${table.entityPath}IPage;
+    }
+
+    /**
+     *  公共查询条件
+     * @param ${table.entityPath}
+     * @return
+     */
+    public QueryWrapper<${entity}> getQueryWrapper(${entity} ${table.entityPath}){
+        QueryWrapper<${entity}> queryWrapper = new QueryWrapper<>();
+        //条件拼接
+        #foreach($field in ${table.fields})
+        #if(!${field.keyFlag})
+        #if(${field.propertyType} == "String")
+            if (StringUtils.isNotBlank(${table.entityPath}.${getprefix}${field.capitalName}())){
+                queryWrapper.eq(${entity}.${field.name.toUpperCase()},${table.entityPath}.${getprefix}${field.capitalName}());
+            }
+        #else
+            if (${table.entityPath}.${getprefix}${field.capitalName}() != null){
+                queryWrapper.eq(${entity}.${field.name.toUpperCase()},${table.entityPath}.${getprefix}${field.capitalName}());
+            }
+        #end
+
+        #end
+        #end
+        return queryWrapper;
+    }
+}

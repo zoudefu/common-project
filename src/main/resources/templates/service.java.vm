@@ -1,0 +1,26 @@
+package ${package.Service};
+
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import ${package.Entity}.${entity};
+import ${superServiceClassPackage};
+
+/**
+ * <p>
+ * $!{table.comment}服务类
+ * </p>
+ *
+ * @author ${author}
+ * @date ${date}
+ */
+public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
+
+    /**
+     *  分页查询
+     * @param page 页面信息
+     * @param ${table.entityPath}
+     * @return
+     */
+    IPage<${entity}> selectPage(Page<${entity}> page, ${entity} ${table.entityPath});
+
+}

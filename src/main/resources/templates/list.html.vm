@@ -1,0 +1,78 @@
+<div class="cat__core__top-sidebar cat__core__top-sidebar--bg">
+    <span class="cat__core__title"><strong>$!{table.comment}列表</strong></span>
+</div>
+<div class="card-block animated fadeInLeft">
+	<div class="card">
+		<div class="card-block">
+        #foreach($field in ${table.fields})
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="form-group row">
+                        <label style="text-align:right" class="col-md-4 col-form-label" for="${field.propertyName}">${field.comment}</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" ng-model="queryCondition.${field.propertyName}" placeholder="${field.comment}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        #end
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="pull-right">
+                        <button class="btn btn-sm btn-success mr-2 mb-2" ng-click="query()"><i class="fa  fa-search icon-on-right"></i> 查询</button>
+                        <button class="btn btn-sm btn-secondary mr-2 mb-2 " ng-click="reset()"><i class="fa fa-undo"></i> 重置</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<div class="card">
+    <div class="card-block">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="mb-5">
+                    <!-- 按钮区域-->
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h3 class="listShowText">列表展示</h3>
+                            <button type="button" style="float: right" class="btn  btn-danger mr-2 mb-2 btn-sm" ng-click="deletes();"><i class="fa fa-trash-o"></i> 删除</button>
+                            <button type="button" style="float: right" class="btn btn-outline-primary mr-2 mb-2 btn-sm" ng-click="${table.entityPath}Add()" ><i class="fa fa-plus"></i> 添加</button>
+                        </div>
+                    </div>
+					<!-- 按钮区域end-->
+					<!-- 表格区域-->
+                    <div class="row table-responsive nosearchTable">
+                        <table class="table table-hover nowrap table-bordered"  width="100%">
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" ng-model="master" ng-click="selectAll(master,rows)"></th>
+                                    <th>序号</th>
+                                #foreach($field in ${table.fields})
+                                    <th>${field.comment}</th>
+                                #end
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in rows">
+                                    <td><input type="checkbox"   ng-model="selecteModel" ng-checked="master" ng-click="chk(item.id,selecteModel)"></td>
+                                    <td>{{$index + 1}}</td>
+                                    #foreach($field in ${table.fields})
+                                        <td>{{item.${field.propertyName}}}</td>
+                                    #end
+                                    <td >
+                                        <i class="fa fa-search-plus icon-info mr-2" ng-click="${table.entityPath}View(item)" title="详情" ></i>
+                                        <i class="fa fa-pencil icon-primary mr-2" ng-click="${table.entityPath}Edit(item)" title="修改" ></i>
+                                        <i class="fa fa-trash-o icon-danger mr-2" ng-click="${table.entityPath}Delete(item.id)" title="删除"></i>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <paging action="operatePaging(total, rows)" options="pageOptions"></paging>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

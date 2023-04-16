@@ -1,0 +1,151 @@
+define(["app", "constant", "config", "bootbox", "common_tools", "dir_paging", "./service","dir_datepicker", "tools_factory", "dir_table_column_config", "dir_top_head", "com_filter","dir_select","common_service","enum_filter"],
+    function(app, constant, config, bootbox, commonTools) {
+        app.register.controller('${table.entityPath}ListCtrl', ["$scope", "rootMap", "$state", "${table.entityPath}Service",  "toolsFactory" , "commonService", "$filter",
+            function($scope, rootMap, $state, ${table.entityPath}Service, toolsFactory, commonService, $filter) {
+                $scope.permis = rootMap.get(rootMap.get("currentHash"));
+                var tplsBasePath = app.tplsBasePath; //如果用弹出框 需要用到模板根目录
+                //页面加载
+                function pageInit() {
+                    //查询条件
+                    $scope.queryCondition = {};
+                    //初始化分页数据值
+                    $scope.pageOptions = {
+                        server: config.services.idc,
+                        url: '/${table.entityPath}/page',
+                        id: "${table.entityPath}Paging"
+                    };
+                    $scope.query();
+                }
+
+                //分页插件查询回调
+                $scope.operatePaging = function (total, rows) {
+                    $scope.choseArr= [];//定义数组用于存放前端显示
+                    $scope.str= "";//
+                    $scope.selecteModel= false;//默认未选中
+                    $scope.master= false;//默认未选中
+                    $scope.flag= '';//是否点击了全选，是为a
+                    $scope.rows = rows;
+                    $scope.total = total;
+                };
+
+                //查询功能实现
+                $scope.query = function () { //点击查询 更新查询条件缓存
+                    $scope.pageOptions.param = angular.copy($scope.queryCondition);
+                    $scope.pageOptions.reload = true;
+                };
+
+                //重置按钮
+                $scope.reset = function () {
+                    $scope.queryCondition = {};
+                    $scope.query();
+                };
+
+                pageInit();
+
+                //查询数据
+                function query() {
+                    $scope.query();
+                }
+
+                //初始化添加/修改表单
+                function initTable(obj) {
+                    $scope.${table.entityPath}Model = angular.copy(obj);
+                    toolsFactory.openDialog($scope, tplsBasePath + "${package.ModuleName}/${table.entityPath}/edit.html");
+                }
+
+                //------------------------公共模块管理------------------------//
+                //详情
+                $scope.${table.entityPath}View = function(item){
+                    $scope.rowDetail = item;
+                    $scope.title = "$!{table.comment}信息";
+                    toolsFactory.openDialog($scope, tplsBasePath + "${package.ModuleName}/${table.entityPath}/view.html");
+
+                };
+
+                //添加表单
+                $scope.${table.entityPath}Add = function () {
+                    $scope.title = "$!{table.comment}";
+                    initTable({});
+                };
+
+                //修改表单
+                $scope.${table.entityPath}Edit = function (item) {
+                    $scope.title = "$!{table.comment}";
+                    initTable(item);
+                };
+
+                //提交表单
+                $scope.submitForm = function () {
+                    var addData = $scope.${table.entityPath}Model.id ? ${table.entityPath}Service.initEditData($scope.${table.entityPath}Model) : $scope.${table.entityPath}Model;
+                        ${table.entityPath}Service.edit${entity}(addData).then(function (rsp) {
+                        toolsFactory.closeDialog();
+                        query();
+                    })
+                };
+
+                //删除
+                $scope.${table.entityPath}Delete = function (id) {
+                    bootbox.confirm("确定要删除吗?", function (btn) {
+                        if (btn) {
+                                ${table.entityPath}Service.deleteBatch${entity}(id).delete({}, function (rsp) {
+                                if (rsp.code == 200) {
+                                        $scope.query();
+                                } else {
+                                    bootbox.alert(rsp.message);
+                                }
+                            })
+                        }
+                    });
+                };
+
+                $scope.selectAll= function (master,rows) {//全选
+                    if(master==false){
+                            $scope.selecteModel=false;
+                            $scope.choseArr=[""];
+                            $scope.str="";
+                    }else{
+                            $scope.selecteModel=true;
+                        for(var i=0;i<rows.length;i++){
+                            //TODO 需要手动添加
+                            #*$scope.choseArr[i] =''+rows[i].id+'';*#
+                        }
+                    }
+                    $scope.flag='a';
+                    console.log($scope.choseArr);
+                };
+
+                $scope.chk= function (id,selecteModel) {//单选或者多选
+                    if($scope.flag=='a') {//在全选的基础上操作
+                        str = $scope.choseArr.join(',') + ',';
+                    }
+                    if (selecteModel == true) {//选中
+                        $scope.str = $scope.str + id + ',';
+                    } else {
+                        //TODO 需要手动添加  取消选中
+                        #*$scope.str = $scope.str.replace(id + ',', '');*#
+                    }
+                    //TODO 需要手动添加
+                    #*$scope.choseArr=($scope.str.substr(0,$scope.str.length-1)).split(',');*#
+                };
+
+                $scope.deletes= function () {// 操作CURD
+                    if($scope.choseArr[0]==""||$scope.choseArr.length==0){//没有选择一个的时候提示
+                        bootbox.alert("请至少选中一条数据再操作！");
+                        return;
+                    };
+                    bootbox.confirm("确定要删除吗?", function (btn) {
+                        if (btn) {
+                            ${table.entityPath}Service.deleteBatch${entity}($scope.choseArr).delete({}, function (rsp) {
+                                if (rsp.code == 200) {
+                                    $scope.query();
+                                } else {
+                                    bootbox.alert(rsp.message);
+                                }
+                            })
+                        }
+                    });
+                };
+
+            }
+        ]);
+    })

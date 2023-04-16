@@ -1,0 +1,27 @@
+define(['app', 'config','system_constant', 'http_service'], function(app, config, system_constant) {
+    app.register.service("${table.entityPath}Service", ["$resource", "httpResource", function($resource, httpResource) {
+
+        return {
+            search: httpResource.resource("/${table.entityPath}/page", config.services.idc),
+            deleteBatch${entity}: function(ids){
+                return httpResource.resource("/${table.entityPath}/" + ids, config.services.idc)
+            },
+            edit${entity}: function(data){
+                return httpResource.http.put("/${table.entityPath}", data ,"form" , true , config.services.idc);
+            },
+            initEditData: function(data){
+                var updataParams = {
+                #foreach($field in ${table.fields})
+                    ${field.propertyName}: "",
+                #end
+                };
+                for(var item in updataParams){
+                    updataParams[item] = data[item];
+                }
+                return updataParams;
+
+            }
+        };
+
+    }])
+})

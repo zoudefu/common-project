@@ -1,0 +1,14 @@
+<div class="detailDialog">
+    #*<p>{{${table.entityPath}Title}}</p>*#
+    <p>{{title}}</p>
+    <ul>
+    #foreach($field in ${table.fields})
+        <li>
+            <span class="detailTitle">${field.comment}</span>
+            <span class="detailContent">
+                {{rowDetail.${field.propertyName}}}
+            </span>
+        </li>
+    #end
+    </ul>
+</div>
