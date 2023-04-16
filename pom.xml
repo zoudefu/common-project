@@ -9,7 +9,7 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.common</groupId>
-	<artifactId>project</artifactId>
+	<artifactId>common-project</artifactId>
 	<version>3.0.0</version>
 	<packaging>jar</packaging>
 	<name>common-project</name>
