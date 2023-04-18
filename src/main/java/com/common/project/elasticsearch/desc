@@ -1,0 +1,15 @@
+###官方文档地址
+https://www.elastic.co/guide/en/elasticsearch/client/java-api-client/7.16/installation.html
+###已入maven
+<!-- ES 配置开始 -->
+<dependency>
+    <groupId>co.elastic.clients</groupId>
+    <artifactId>elasticsearch-java</artifactId>
+    <version>7.16.3</version>
+</dependency>
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.12.3</version>
+ </dependency>
+<!-- ES 配置结束 -->

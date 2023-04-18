@@ -1,0 +1,2 @@
+百万数据入库
+1.启动类上加 @EnableAsync(proxyTargetClass=true)
