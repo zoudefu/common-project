@@ -138,18 +138,6 @@
 			<scope>test</scope>
 		</dependency>
 		<!-- ES 配置开始 -->
-		<dependencies>
-			<dependency>
-				<groupId>co.elastic.clients</groupId>
-				<artifactId>elasticsearch-java</artifactId>
-				<version>7.16.3</version>
-			</dependency>
-			<dependency>
-				<groupId>com.fasterxml.jackson.core</groupId>
-				<artifactId>jackson-databind</artifactId>
-				<version>2.12.3</version>
-			</dependency>
-		</dependencies>
 		<!-- ES 配置结束 -->
 		<!-- Alibaba-Druid -->
 		<dependency>

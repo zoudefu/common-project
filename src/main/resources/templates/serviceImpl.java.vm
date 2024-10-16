@@ -59,7 +59,7 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
         #if(!${field.keyFlag})
         #if(${field.propertyType} == "String")
             if (StringUtils.isNotBlank(${table.entityPath}.${getprefix}${field.capitalName}())){
-                queryWrapper.eq(${entity}.${field.name.toUpperCase()},${table.entityPath}.${getprefix}${field.capitalName}());
+                queryWrapper.like(${entity}.${field.name.toUpperCase()},${table.entityPath}.${getprefix}${field.capitalName}());
             }
         #else
             if (${table.entityPath}.${getprefix}${field.capitalName}() != null){

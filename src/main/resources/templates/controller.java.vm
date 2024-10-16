@@ -80,10 +80,17 @@ public class ${table.controllerName} {
      */
     @ApiOperation(value = "保存/修改$!{table.comment}")
     @RequestMapping(path = "", method = RequestMethod.PUT)
-    public Response add(@ModelAttribute final  ${entity} ${table.entityPath}, BindingResult bin) {
+    public Response add(@RequestBody  ${entity} ${table.entityPath}, BindingResult bin,@ApiParam(value = "用户名称", required = false) @RequestHeader final String userName) {
         return new ResponseCallBack() {
             @Override
             public void execute(ResponseCriteria criteria, Object... objects) {
+                if (StringUtils.isEmpty(${table.entityPath}.getId())) {
+                    ${table.entityPath}.setCreateTime(LocalDateTime.now());
+                    ${table.entityPath}.setCreateUserEmail(userName);
+                } else {
+                    ${table.entityPath}.setUpdateTime(LocalDateTime.now());
+                    ${table.entityPath}.setUpdateUserEmail(userName);
+                }
                 i${entity}Service.saveOrUpdate(${table.entityPath});
             }
         }.sendRequest();

@@ -1,13 +1,4 @@
-1.实体属性创建时间上增加 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    @TableField(value = "create_time", fill = FieldFill.INSERT)
-2.实体属性更新时间上增加
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
-3. 逻辑删除实体属性上增加(如果逻辑字段未生效确认字段默认是否是0)
-    @TableField("is_del")
-    @TableLogic(value = "0", delval = "1")
-4. 创建表时基本字段
+1. 创建表时基本字段
     DROP TABLE IF EXISTS `table_name`;
     CREATE TABLE `table_name`  (
   `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
@@ -20,7 +11,7 @@
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
    PRIMARY KEY (`id`) USING BTREE
 )  ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '记得修改表说明' ROW_FORMAT = Dynamic;
-5.自己的查询分页
+2.自己的查询分页
 Serverce   
     @Override
     public  IPage<ZgztProjectSnapshot> selectActualPage(Page<ZgztProjectSnapshot> page,
@@ -83,18 +74,7 @@ Dao xml
 			</foreach>
 		</if>
 	</select>
-	
-	6.字符串类型 改成like 模糊查询。
-	7.@TableField(exist = false) 标注非数据库属性字段。
-	8.@ApiParam(value = "用户名称", required = false) @RequestHeader final String userName,
-	 if (StringUtils.isEmpty(pmsComputerRoom.getId())) {
-                    pmsComputerRoom.setCreateTime(LocalDateTime.now());
-                    pmsComputerRoom.setCreateUserEmail(userName);
-                } else {
-                    pmsComputerRoom.setUpdateTime(LocalDateTime.now());
-                    pmsComputerRoom.setUpdateUserEmail(userName);
-                }
-                
-     9.保存 参数@RequesBody
-     
+	3.@TableField(exist = false) 标注非数据库属性字段。
+	4.##utf8mb4比utf8多一个字节四字节保存可以保存表情，utf8mb4_unicode_ci精准排序性能不高utf8mb4_general_ci不能精准排序性能高
+	CREATE DATABASE my_database CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
     

@@ -45,8 +45,8 @@ public class MpGenerator {
         });
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
         dsc.setUsername("root");
-        dsc.setPassword("密码");
-        dsc.setUrl("jdbc:mysql://ip:3306/库名?serverTimezone=Asia/Shanghai&&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true");
+        dsc.setPassword("EverSec99813!@#");
+        dsc.setUrl("jdbc:mysql://10.0.6.5:3306/eo_bms?serverTimezone=Asia/Shanghai&&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true");
         mpg.setDataSource(dsc);
 
         // 策略配置
@@ -55,7 +55,7 @@ public class MpGenerator {
         strategy.setNaming(NamingStrategy.underline_to_camel);//数据库表映射到实体的命名策略
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);//数据库表字段映射到实体的命名策略, 未指定按照 naming 执行
         // 需要生成的表 可以是多个表
-        strategy.setInclude(new String[] { "表名" });
+        strategy.setInclude(new String[] { "bms_order_goods" });
         //这里结合了Lombok，所以设置为true，如果没有集成Lombok，可以设置为false
         strategy.setEntityLombokModel(true);
         //强制生成字段注解
@@ -66,7 +66,7 @@ public class MpGenerator {
         strategy.setSuperControllerClass("com.common.project.generator.base.AbstractController");
         strategy.setEntityColumnConstant(false);
         //数据库逻辑删除这个字段的写死 且默认值给0 否则插入时候是null
-        //strategy.setLogicDeleteFieldName("is_del");
+        strategy.setLogicDeleteFieldName("is_del");
         mpg.setStrategy(strategy);
 
         // 包配置
