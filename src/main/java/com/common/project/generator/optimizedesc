@@ -76,5 +76,5 @@ Dao xml
 	</select>
 	3.@TableField(exist = false) 标注非数据库属性字段。
 	4.##utf8mb4比utf8多一个字节四字节保存可以保存表情，utf8mb4_unicode_ci精准排序性能不高utf8mb4_general_ci不能精准排序性能高
-	CREATE DATABASE my_database CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+	CREATE DATABASE my_database CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
     
