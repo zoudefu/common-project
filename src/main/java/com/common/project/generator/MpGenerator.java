@@ -43,10 +43,10 @@ public class MpGenerator {
                 return (DbColumnType) super.processTypeConvert(gc, fieldType);
             }
         });
-        dsc.setDriverName("com.mysql.cj.jdbc.Driver");
+        dsc.setDriverName("com.mysql.jdbc.Driver");
         dsc.setUsername("root");
-        dsc.setPassword("H*y%eM17Qtz64Zaf@Mysql");
-        dsc.setUrl("jdbc:mysql://10.0.201.6:13306/cross_border?serverTimezone=Asia/Shanghai&&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true");
+        dsc.setPassword("r9xh*yH*DcEFQE");
+        dsc.setUrl("jdbc:mysql://10.0.3.180:3306/everidc_3_1?characterEncoding=utf-8&autoReconnect=true&useSSL=false&rewriteBatchedStatements=true&serverTimezone=Asia/Shanghai");
         mpg.setDataSource(dsc);
 
         // 策略配置
@@ -55,7 +55,7 @@ public class MpGenerator {
         strategy.setNaming(NamingStrategy.underline_to_camel);//数据库表映射到实体的命名策略
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);//数据库表字段映射到实体的命名策略, 未指定按照 naming 执行
         // 需要生成的表 可以是多个表
-        strategy.setInclude(new String[] { "license_approval" });
+        strategy.setInclude(new String[] { "idc_ds_data_check_ct_data","idc_ds_data_check_ct_type" });
         //这里结合了Lombok，所以设置为true，如果没有集成Lombok，可以设置为false
         strategy.setEntityLombokModel(true);
         //强制生成字段注解
@@ -72,7 +72,7 @@ public class MpGenerator {
         // 包配置
         PackageConfig pc = new PackageConfig();
         pc.setParent("com.eversec");
-        pc.setModuleName("judge");
+        pc.setModuleName("dstool");
         mpg.setPackageInfo(pc);
 
         // 自定义模板配置，可以 copy 源码 mybatis-plus/src/main/resources/templates 下面内容修改，
