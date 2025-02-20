@@ -1,7 +1,6 @@
 
 package com.common.project.util;
 
-import com.eversec.pms.pms.entity.PmsContractMilestone;
 import org.apache.commons.lang3.StringUtils;
 
 import java.text.DateFormat;
@@ -446,18 +445,7 @@ public class DateUtil {
 		return localTime;
 	}
 
-	public static LocalDateTime getLocalDateTime(PmsContractMilestone lastMiles) {
-		if (lastMiles.getBaseLineRealTime() != null) {
-			return lastMiles.getBaseLineRealTime();
-		} else if (lastMiles.getBaseLinePredictTime() != null) {
-			return lastMiles.getBaseLinePredictTime();
-		} else if (lastMiles.getCustomerConjectureTime() != null) {
-			return lastMiles.getCustomerConjectureTime();
-		} else if (lastMiles.getCustomerBaseTime() != null) {
-			return lastMiles.getCustomerBaseTime();
-		}
-		return null;
-	}
+
 
 	public static Map<String, Date> getWeekDate() {
 		Map<String, Date> map = new HashMap();

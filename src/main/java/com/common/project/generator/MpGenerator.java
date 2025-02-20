@@ -55,7 +55,7 @@ public class MpGenerator {
         strategy.setNaming(NamingStrategy.underline_to_camel);//数据库表映射到实体的命名策略
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);//数据库表字段映射到实体的命名策略, 未指定按照 naming 执行
         // 需要生成的表 可以是多个表
-        strategy.setInclude(new String[] { "idc_ds_data_check_ct_data","idc_ds_data_check_ct_type" });
+        strategy.setInclude(new String[] { "idc_ds_data_check_ct_statistics" });
         //这里结合了Lombok，所以设置为true，如果没有集成Lombok，可以设置为false
         strategy.setEntityLombokModel(true);
         //强制生成字段注解
